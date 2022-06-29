@@ -1,23 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useEffect, useState } from "react";
+import MoleContainer from "./MoleContainer";
 
 function App() {
+  const [score, setScore] = useState(0);
+  const [isOn, setIsOn] = useState(false);
+
+  const createMoleHill = () => {
+    let hills = [];
+    for (let i = 0; i < 9; i++) {
+      hills.push(<MoleContainer key={i} setScore={setScore} score={score} />);
+    }
+    return <div>{hills}</div>;
+  };
+
+  const handleChange = () => {
+    setIsOn(true);
+  };
+
+  useEffect(() => {}, [isOn]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>React-a-Mole!</h1>
+
+      <div className="score">Score : {score}</div>
+
+      <div>
+        {isOn === false && (
+          <button onClick={handleChange}>Play react a mole!</button>
+        )}
+
+        {isOn === true && (
+          <button onClick={() => setIsOn(false)}>Pause! I need a break!</button>
+        )}
+
+        {score > 0 && <button onClick={() => setScore(0)}>Reset Score</button>}
+      </div>
+
+      <div>{isOn ? createMoleHill() : null}</div>
     </div>
   );
 }
